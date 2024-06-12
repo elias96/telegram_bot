@@ -38,7 +38,10 @@ bot.on('callback_query', async (callbackQuery) => {
   if (command === 'systeminfo') {
     const temp = await si.cpuTemperature();
     console.log(JSON.stringify(temp, null, 2));
-    bot.sendMessage(msg.chat.id, `The CPU temperature is ${temp.chipset}°C.`);
+    bot.sendMessage(
+      msg.chat.id,
+      `The CPU temperature is ${temp.main}°C, maxed out at ${temp.max}°C.`
+    );
 
     const load = await si.currentLoad();
     bot.sendMessage(msg.chat.id, `The CPU load is ${load.avgLoad}%.`);
@@ -53,7 +56,6 @@ bot.onText(/^commands|cmds|help$/i, (msg, match) => {
     return;
   }
 
-  console.log(JSON.stringify(msg, null, 2));
   const chatId = msg.chat.id;
   sendCommandButtons(chatId);
 });
